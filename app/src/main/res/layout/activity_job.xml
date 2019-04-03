@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:weightSum="100"
+    >
+
+    <ImageView
+        android:id="@+id/activity_job_row_image"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="60"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher"
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:id="@+id/activity_job_row_title"
+        tools:text="(title)"
+        android:textSize="30sp"
+        android:layout_marginBottom="10dp"
+        android:maxLines="2"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="20"
+        android:textSize="15sp"
+        android:id="@+id/activity_job_row_description"
+        android:layout_marginBottom="10dp"
+        tools:text="(description) Adsasdpkasokdaspokdpokas påldaspdpkaspk dpks dasokdaspokdpasok okppokasdpokdaspokdpokasdpokas aksdkådpkåasdåå aspkådasådasdpkaspkådaspkådaskåpdas"
+        android:maxLines="15"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:id="@+id/activity_job_row_link"
+        android:autoLink="web"
+        android:textSize="15sp"
+        tools:text="(link) https://qvik.com/careers/react-native-developer/"
+        android:maxLines="3"
+        />
+
+</LinearLayout>

@@ -1,23 +1,17 @@
 package com.choicely.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import android.app.ActivityOptions;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +25,7 @@ public class ListActivity extends AppCompatActivity {
     private static final String TAG = "ListActivity";
     private OkHttpClient client = new OkHttpClient();
     private RecyclerView recyclerView;
-    private RecyclerViewAdapter adapter;
+    private JobAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private String url = "http://qvik.fi/mobilesystems/jobs2017.json";
 
@@ -40,15 +34,10 @@ public class ListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration
-                .Builder()
-                .deleteRealmIfMigrationNeeded()
-                .build();
-        Realm.setDefaultConfiguration(config);
+
 
         realm = Realm.getDefaultInstance();
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_list);
 
         recyclerView = findViewById(R.id.recyclerView);
 
@@ -56,7 +45,7 @@ public class ListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        adapter = new RecyclerViewAdapter(this);
+        adapter = new JobAdapter(this);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 

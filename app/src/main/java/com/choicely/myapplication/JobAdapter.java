@@ -1,11 +1,8 @@
 package com.choicely.myapplication;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,13 +23,13 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
 
-    private static final String TAG = "RecyclerViewAdapter";
+    private static final String TAG = "JobAdapter";
     private final List<Job> jobs = new ArrayList<>();
     private final WeakReference<Activity> weakActivity;
 
-    public RecyclerViewAdapter(Activity act) {
+    public JobAdapter(Activity act) {
         weakActivity = new WeakReference<>(act);
     }
 

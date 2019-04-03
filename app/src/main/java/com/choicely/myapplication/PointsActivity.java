@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.List;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import io.realm.Realm;
@@ -16,7 +14,6 @@ public class PointsActivity extends AppCompatActivity {
 
     private Button increaseButton;
     private String stringValue;
-    private int value = 0;
     private Realm realm;
     private Button listButton;
     private TextView textView;
@@ -43,28 +40,49 @@ public class PointsActivity extends AppCompatActivity {
         listButton.setText("Job List");
 
         increaseButton.setOnClickListener(v -> {
-            value++;
-            stringValue = Integer.toString(value);
-            textView.setText("Points: " + stringValue);
+            incrementPoint();
+            updateContent();
         });
+
+
 
         listButton.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), ListActivity.class);
             startActivity(intent);
         });
 
-        createObject();
+        createPointObject();
     }
 
+    private void updateContent() {
+        Point point = getPointsFromRealm();
+        if (point == null) {
+            point = createPointObject();
+        }
+        stringValue = Integer.toString(point.getPoints());
+        textView.setText("Points: " + stringValue);
+    }
+
+    private void incrementPoint() {
+        Point point = getPointsFromRealm();
+
+        if (point == null) {
+            point = createPointObject();
+        }
+        realm.beginTransaction();
+        point.setPoints(point.getPoints() + 1);
+        realm.commitTransaction();
+    }
+
+    @Nullable
     private Point getPointsFromRealm() {
         Point point = realm.where(Point.class)
                 .findFirst();
         return point;
     }
 
-    public void createObject() {
+    public Point createPointObject() {
         realm.beginTransaction();
-
 
         Point point = realm.where(Point.class)
                 .findFirst();
@@ -72,10 +90,11 @@ public class PointsActivity extends AppCompatActivity {
         if (point == null) {
             point = new Point();
             point.setPoints(0);
-            realm.copyToRealmOrUpdate(point);
+            realm.copyToRealm(point);
         }
 
         realm.commitTransaction();
+        return point;
     }
 
     @Override

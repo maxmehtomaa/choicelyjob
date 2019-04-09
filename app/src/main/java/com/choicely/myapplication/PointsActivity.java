@@ -1,6 +1,7 @@
 package com.choicely.myapplication;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class PointsActivity extends AppCompatActivity {
         listButton = findViewById(R.id.list_button);
         listButton.setText("Job List");
 
+        updateContent();
         increaseButton.setOnClickListener(v -> {
             incrementPoint();
             updateContent();
@@ -54,13 +56,18 @@ public class PointsActivity extends AppCompatActivity {
         createPointObject();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
+    }
+
     private void updateContent() {
         Point point = getPointsFromRealm();
         if (point == null) {
             point = createPointObject();
         }
-        stringValue = Integer.toString(point.getPoints());
-        textView.setText("Points: " + stringValue);
+        textView.setText("Points: " + point.getPoints());
     }
 
     private void incrementPoint() {
@@ -97,10 +104,7 @@ public class PointsActivity extends AppCompatActivity {
         return point;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        realm.close();
-    }
+    private void setBackgroundColor(Point point) {
 
-}
+        }
+    }

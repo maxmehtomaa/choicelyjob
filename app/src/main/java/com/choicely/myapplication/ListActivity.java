@@ -47,13 +47,8 @@ public class ListActivity extends AppCompatActivity {
 
         adapter = new JobAdapter(this);
         recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
         fetchJsonAndPutToTextView(url);
-
-        createObject();
-
-        updateAdapter();
     }
 
     @Override
@@ -67,6 +62,7 @@ public class ListActivity extends AppCompatActivity {
         for (Job job : jobs) {
             adapter.add(job);
         }
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -95,11 +91,7 @@ public class ListActivity extends AppCompatActivity {
                     try {
                         //String to JSONObject
                         JSONObject json = new JSONObject(myResponse);
-                        JSONArray jobs = json.getJSONArray("jobs");
-                        for (int index = 0; index < jobs.length(); index++) {
-                            JSONObject job = jobs.getJSONObject(index);
-                            saveJobToRealm(job);
-                        }
+                        saveAllJobsToRealm(json);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -110,6 +102,22 @@ public class ListActivity extends AppCompatActivity {
         });
 
         Log.d(TAG, "wooop");
+    }
+
+    private void saveAllJobsToRealm(JSONObject json) {
+        runOnUiThread(() -> {
+            JSONArray jobs = null;
+            try {
+                jobs = json.getJSONArray("jobs");
+                for (int index = 0; index < jobs.length(); index++) {
+                    JSONObject job = jobs.getJSONObject(index);
+                    saveJobToRealm(job);
+                }
+                updateAdapter();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void saveJobToRealm(JSONObject json) {
@@ -145,34 +153,6 @@ public class ListActivity extends AppCompatActivity {
         return realm.where(Job.class)
                 .equalTo("title", "React Native developer")
                 .findFirst() != null;
-    }
-
-    public void createObject() {
-        realm.beginTransaction();
-
-        Job job = realm.where(Job.class)
-                .equalTo("title", "React Native developer")
-                .findFirst();
-
-         if (job == null) {
-             Job job1 = new Job();
-             job1.setTitle("React Native developer");
-             job1.setDescription("Join our dashing React Native team! No previous experience of RN " +
-                    "required as that would probably mean you wouldn't be applying anyway. Don't get" +
-                    " us wrong, we love the framework, but we all know it's still a little rough " +
-                    "around the edges, eh? Our react natives have made it alive so far " +
-                    "(even if barely) " +
-                    "and they'd love to share the pain with someone " +
-                    "who knows their way around JS or native development.");
-            job1.setLink("https://qvik.com/careers/react-native-developer/");
-           job1.setImageUrl("htps://storage.googleapis.com/qvik-wp-site-content-prod/2016/11/385a00ec-mobile-phone-iphone-music-38295-jpeg");
-            realm.copyToRealmOrUpdate(job1);
-
-
-        } else {
-
-        }
-        realm.commitTransaction();
     }
 }
 

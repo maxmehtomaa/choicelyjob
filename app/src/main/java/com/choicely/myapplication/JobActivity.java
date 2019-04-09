@@ -72,25 +72,20 @@ public class JobActivity extends AppCompatActivity {
     }
 
     public void setTitle(String title) {
-
         titleView.setText(title);
     }
 
     public void setDescription(String description) {
-
         descView.setText(description);
     }
 
     public void setImage(String imageUrl) {
-
         Picasso.get()
                 .load(imageUrl)
                 .into(image);
     }
 
     public void setLink(String link) {
-
         linkView.setText(link);
     }
-
 }
